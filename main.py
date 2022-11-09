@@ -37,7 +37,7 @@ raw_data = pd.read_csv("investor_data.csv", index_col=False)
 
 #-----------------------------------------------------#
 
-industry_sel = st.selectbox("Choose Your Industry:", ["", "Renewable Energy", "Technology"])
+industry_sel = st.selectbox("Choose Your Industry:", ["", "Renewable Energy", "Technology", "Healthcare", "Industrial"])
 
 if industry_sel != "":
     country_list = [i for i in raw_data["country_code"].unique()]
@@ -54,6 +54,8 @@ if industry_sel != "":
                 raw_investor.append(pd.DataFrame([row[1][1]]))
                 raw_investor.append(pd.DataFrame([row[1][15]]))
                 raw_investor.append(pd.DataFrame([row[1][13]]))
+                raw_investor.append(pd.DataFrame([row[1][4]]))
+                raw_investor.append(pd.DataFrame([row[1][6]]))
                 raw_investor = pd.concat(raw_investor, axis=1)
                 investor_data.append(raw_investor)
                 filtered_region_list.append(row[1][13])
@@ -63,58 +65,23 @@ if industry_sel != "":
         
         region_sel = st.selectbox("Choose Your Region:", filtered_region_list)
         investor_data = pd.concat(investor_data)
-        investor_data.columns = ["name", "short_description", "region"]
+        investor_data.columns = ["name", "short_description", "region", "cruchbase", "homepage"]
         
         if industry_sel == "Technology":
-            industry_sel = ["tech", "technologies", "technology"]
+            industry_sel = ["tech", "technologies", "technology", "software", "internet"]
         elif industry_sel == "Renewable Energy":
-            industry_sel = ["renewable", "renewable energy", "sustainable"]
+            industry_sel = ["renewable", "renewable energy", "sustainable", "energy"]
+        elif industry_sel == "Healthcare":
+            industry_sel = ["health", "healthcare", "hospital"]
+        elif industry_sel == "Industrial":
+            industry_sel = ["industrial", "manufacturing", "machine", "machining", "factory", "production", "supply"]
 
-        for row in investor_data.head().iterrows():
+        for row in investor_data.iterrows():
             for keyword in industry_sel:
                 if keyword in row[1][1]:
-                    st.code(row, "java")
+                    display_df = pd.DataFrame([row[1]], columns=["name","short_description", "region", "crunchbase", "homepage"])
+                    display_df.columns = ["Investor", "Short Description", "Region", "Crunchbase", "Homepage"]
+                    st.dataframe(display_df)
                 break
-       
-            
-            
-
-        # display_data = investor_data[investor_data["short_description"]].str.contains(industry_sel).head()
-        # print(investor_data)
-
-        # for i in display_data.iloc[0:display_data.shape[0]-16,:].iterrows():
-        #     if i[1][0] != np.NaN:
-        #         st.code(i[1], "java")
-        #         st.table(i[1])
-        #         st.dataframe(i[1])
-
-        # investor_data = raw_data[raw_data["short_description"].str.contains(industry_sel)].head()
-        # num_investments = pd.DataFrame([i for i in range(investor_data.shape[1])], columns=["# of Investments"])
-        # total_investments = pd.DataFrame([i for i in range(investor_data.shape[1])], columns=["Total Invested"])
-        # display_data = [investor_data["name"], investor_data["short_description"], num_investments, total_investments]
-        # display_data = pd.concat(display_data, axis=1)
-        # st.write("Investors You Might Be Interested In:")
-        # for i in display_data.iloc[0:display_data.shape[0]-16,:].iterrows():
-        #     if i[1][0] != np.NaN:
-                # st.code(i[1], "java")
-                # st.table(i[1])
-                # st.dataframe(i[1])
-            
-
-
-          
-            # st.dataframe(display_data)
-            
-            # AgGrid(display_data)
-           
-            #Pass the selected rows to a new dataframe df
-            # for i in display_data.iterrows():
-            #     st.code(i[1], "python")
-            # st.dataframe(display_data)
 
 #-----------------------------------------------------#
-
-
-
-#-----------------------------------------------------#
-
