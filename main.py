@@ -74,6 +74,8 @@ if industry_sel != "":
             for keyword in industry_sel:
                 if keyword in row[1][1]:
                     st.code(row, "java")
+                break
+       
             
             
 
