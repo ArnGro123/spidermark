@@ -7,10 +7,10 @@ import base64
 
 #-----------------------------------------------------#
 
-st.set_page_config(page_title="SpiderMark", page_icon='images/spidermark_icon.png')
+st.set_page_config(page_title="SpiderMark", page_icon='images/spidermark_icon.png', layout="wide")
 
 with open("images/spidermark_background.png", "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read())
+    encoded_string = base64.b64encode(image_file.read())
 
 st.markdown(f""" <style>
 .stApp {{
@@ -37,7 +37,7 @@ raw_data = pd.read_csv("investor_data.csv", index_col=False)
 
 #-----------------------------------------------------#
 
-industry_sel = st.selectbox("Choose Your Industry:", ["", "Renewable Energy", "Technology", "Healthcare", "Industrial"])
+industry_sel = st.selectbox("Choose Your Industry:", ["", "Energy", "Technology", "Healthcare", "Industrial"])
 
 if industry_sel != "":
     country_list = [i for i in raw_data["country_code"].unique()]
@@ -63,14 +63,14 @@ if industry_sel != "":
         filtered_region_list = pd.DataFrame(filtered_region_list)
         filtered_region_list.sort_values(0)
         
-        region_sel = st.selectbox("Choose Your Region:", filtered_region_list)
+        # region_sel = st.selectbox("Choose Your Region:", filtered_region_list)
         investor_data = pd.concat(investor_data)
         investor_data.columns = ["name", "short_description", "region", "cruchbase", "homepage"]
         
         if industry_sel == "Technology":
             industry_sel = ["tech", "technologies", "technology", "software", "internet", "innovation", "innovative", "develop"]
-        elif industry_sel == "Renewable Energy":
-            industry_sel = ["renewable", "renewable energy", "sustainable", "energy", "climate", "solar", "wind", "hydropower", "hydro", "natural"]
+        elif industry_sel == "Energy":
+            industry_sel = ["clean", "oil", "drill", "gas", "power", "renewable", "renewable energy", "sustainable", "energy", "climate", "solar", "wind", "hydropower", "hydro", "natural"]
         elif industry_sel == "Healthcare":
             industry_sel = ["health", "healthcare", "hospital"]
         elif industry_sel == "Industrial":
