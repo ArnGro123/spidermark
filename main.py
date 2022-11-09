@@ -2,7 +2,6 @@
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 from PIL import Image
 import base64
 
@@ -12,6 +11,7 @@ st.set_page_config(page_title="SpiderMark", page_icon='images/spidermark_icon.pn
 
 with open("images/spidermark_background.png", "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
+
 st.markdown(f""" <style>
 .stApp {{
     background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
@@ -68,9 +68,9 @@ if industry_sel != "":
         investor_data.columns = ["name", "short_description", "region", "cruchbase", "homepage"]
         
         if industry_sel == "Technology":
-            industry_sel = ["tech", "technologies", "technology", "software", "internet"]
+            industry_sel = ["tech", "technologies", "technology", "software", "internet", "innovation", "innovative", "develop"]
         elif industry_sel == "Renewable Energy":
-            industry_sel = ["renewable", "renewable energy", "sustainable", "energy"]
+            industry_sel = ["renewable", "renewable energy", "sustainable", "energy", "climate", "solar", "wind", "hydropower", "hydro", "natural"]
         elif industry_sel == "Healthcare":
             industry_sel = ["health", "healthcare", "hospital"]
         elif industry_sel == "Industrial":
@@ -79,8 +79,8 @@ if industry_sel != "":
         for row in investor_data.iterrows():
             for keyword in industry_sel:
                 if keyword in row[1][1]:
-                    display_df = pd.DataFrame([row[1]], columns=["name","short_description", "region", "crunchbase", "homepage"])
-                    display_df.columns = ["Investor", "Short Description", "Region", "Crunchbase", "Homepage"]
+                    display_data = [row[1][0], row[1][1], row[1][2], row[1][3], row[1][4]]
+                    display_df = pd.DataFrame(display_data, columns=["Data"], index=["Investor", "Description", "Region", "Crunchbase", "Homepage"])
                     st.dataframe(display_df)
                 break
 
